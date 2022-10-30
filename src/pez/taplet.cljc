@@ -1,5 +1,5 @@
 (ns pez.taplet
-  (:require cljs.core)
+  #?(:cljs (:require cljs.core))
   #?(:cljs (:require-macros [pez.taplet :refer [let> let>l]])))
 
 (defmacro let>l
@@ -8,9 +8,8 @@
   (assert (or (nil? label)
               (keyword? label))
           "`label` is not a keyword")
-  (let [destructure (if (:ns &env)
-                      cljs.core/destructure
-                      destructure)
+  (let [destructure #?(:clj destructure
+                       :cljs cljs.core/destructure)
         bindings (destructure bindings)
         symbolize (fn [sym] `(quote ~sym))
         gensymed? (fn [sym] (re-matches #"(map|vec)__\d+" (name sym)))
