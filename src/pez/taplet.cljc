@@ -19,7 +19,7 @@
                (remove (fn [[_ s]] (gensymed? s)) $)
                (into (if label [label] []) $))]
     `(let [~@bindings]
-       (tap> ~taps)
+       (tap> (with-meta ~taps {:portal.viewer/default :portal.viewer/table}))
        ~@body)))
 
 (defmacro let>
